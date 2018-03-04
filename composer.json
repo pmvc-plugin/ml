@@ -1,0 +1,20 @@
+{
+    "name": "pmvc-plugin/ml",
+    "description": "PHP-ML Machine Learning library for PHP",
+    "type": "library",
+    "homepage": "https://github.com/pmvc/pmvc",
+    "keywords": ["machine-learning", "pmvc", "plug-in"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hill",
+            "email": "hill@kimo.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "pmvc/pmvc": "*",
+        "php-ai/php-ml": "*"
+    },
+    "minimum-stability": "dev"
+}
