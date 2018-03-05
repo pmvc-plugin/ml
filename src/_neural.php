@@ -49,8 +49,9 @@ class NeuralNetwork {
         return $this;
     }
 
-    public function predict($samples)
+    public function predict($sample)
     {
-        return $this->_app->predict($samples);
+        $a = $this->_app->predict([$sample]);
+        return $a[0];
     }
 }
