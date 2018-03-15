@@ -1,4 +1,5 @@
 <?php
+
 namespace PMVC\PlugIn\ml;
 
 use PHPUnit_Framework_TestCase;
@@ -19,6 +20,5 @@ class SvcTest extends PHPUnit_Framework_TestCase
             train($samples, $labels)->
             predicts([[3, 2], [1, 5]]);
         $this->assertEquals(['b', 'a'], $result);
-
     }
 }

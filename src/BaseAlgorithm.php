@@ -2,6 +2,8 @@
 
 namespace PMVC\PlugIn\ml;
 
+use InvalidArgumentException; 
+
 abstract class BaseAlgorithm
 {
     protected $_app;
@@ -29,11 +31,18 @@ abstract class BaseAlgorithm
         $configs = [];
         foreach ($keys as $key) {
             $configs[] = $params[$key];
+            unset($params[$key]);
+        }
+        if (count($params)) {
+            throw new InvalidArgumentException(json_encode([
+                'Error'  => 'Config key not correct.',
+                'params' => $params
+            ]));
         }
         return $this->getAlgo(...$configs);
     }
 
-    public function assign(array $params)
+    public function assign(array $params = [])
     {
         $params = array_replace(
             $this->_state,
@@ -56,7 +65,10 @@ abstract class BaseAlgorithm
 
     public function predict($sample)
     {
-        $a = $this->predicts([array_values($sample)]);
+        if (is_array($sample)) {
+            $sample = array_values($sample);
+        }
+        $a = $this->predicts([$sample]);
         return $a[0];
     }
 }
