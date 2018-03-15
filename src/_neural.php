@@ -16,56 +16,34 @@ use Phpml\NeuralNetwork\Node\Neuron;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\NeuralNetwork';
 
-class NeuralNetwork {
-
-    private $_app;
-    private $_layers = [];
-
-    function __invoke($app = null)
+class NeuralNetwork extends BaseAlgorithm
+{
+    public function getDefaultProps()
     {
-        if (!is_null($this->_app)) {
-            $this->_app = $app;
-        }
-        return $this;
+        return [
+            'inputLayerFeatures' => null,
+            'hiddenLayers'       => null,
+            'classes'            => null,
+            'iterations'         => 10000,
+            'activationFunction' => null,
+            'learningRate'       => 1,
+        ];
     }
 
-    public function getInstance (array $params)
+    public function getAlgo(...$params)
     {
-        $params = array_replace(
-            [
-                'inputLayerFeatures' => null,
-                'hiddenLayers'       => null,
-                'classes'            => null,
-                'iterations'         => 10000,
-                'activationFunction' => null,
-                'learningRate'       => 1,
-            ],
-            $params
-        );
-        extract($params, EXTR_PREFIX_SAME, 'unsafe');
-        return new MLPClassifier(
-            $inputLayerFeatures,
-            $hiddenLayers,
-            $classes,
-            $iterations,
-            $activationFunction,
-            $learningRate
-        );
-    }
-
-    public function assign(array $params)
-    {
-        if (empty($params['hiddenLayers']) && !empty($this->_layers)) {
-            $params['hiddenLayers'] = $this->_layers;
-        }
-
-        $this->_app = $this->getInstance($params);
-        return $this;
+        return new MLPClassifier(...$params);
     }
 
     public function addLayer($num, $name)
     {
-        $this->_layers[] = $this->getLayer($num, $name);
+        if (!isset($this->_state['hiddenLayers']) ||
+            !is_array($this->_state['hiddenLayers'])
+        ) {
+            $this->_state['hiddenLayers'] = [];
+        }
+        $this->_state['hiddenLayers'][] = 
+            $this->getLayer($num, $name);
     }
 
     public function getLayer($num, $name)
@@ -98,15 +76,4 @@ class NeuralNetwork {
         return $layer;
     }
 
-    public function train($samples, $target)
-    {
-        $this->_app->train($samples, $target); 
-        return $this;
-    }
-
-    public function predict($sample)
-    {
-        $a = $this->_app->predict([array_values($sample)]);
-        return $a[0];
-    }
 }
