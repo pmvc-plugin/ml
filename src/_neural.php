@@ -19,6 +19,7 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\NeuralNetwork';
 class NeuralNetwork {
 
     private $_app;
+    private $_layers = [];
 
     function __invoke($app = null)
     {
@@ -28,15 +29,20 @@ class NeuralNetwork {
         return $this;
     }
 
-    public function getInstance(
-        $inputLayerFeatures,
-        $hiddenLayers,
-        $classes,
-        $iterations = 10000,
-        $activationFunction = null,
-        $learningRate = 1 
-    )
+    public function getInstance (array $params)
     {
+        $params = array_replace(
+            [
+                'inputLayerFeatures' => null,
+                'hiddenLayers'       => null,
+                'classes'            => null,
+                'iterations'         => 10000,
+                'activationFunction' => null,
+                'learningRate'       => 1,
+            ],
+            $params
+        );
+        extract($params, EXTR_PREFIX_SAME, 'unsafe');
         return new MLPClassifier(
             $inputLayerFeatures,
             $hiddenLayers,
@@ -47,12 +53,19 @@ class NeuralNetwork {
         );
     }
 
-    public function assign(...$params)
+    public function assign(array $params)
     {
-        $this->_app = $this->getInstance(
-            ...$params
-        );
+        if (empty($params['hiddenLayers']) && !empty($this->_layers)) {
+            $params['hiddenLayers'] = $this->_layers;
+        }
+
+        $this->_app = $this->getInstance($params);
         return $this;
+    }
+
+    public function addLayer($num, $name)
+    {
+        $this->_layers[] = $this->getLayer($num, $name);
     }
 
     public function getLayer($num, $name)
@@ -74,9 +87,11 @@ class NeuralNetwork {
             case 'ThresholdedReLU':
                 $act = new ThresholdedReLU();
                 break;
-            default:
             case 'Sigmoid':
                 $act = new Sigmoid();
+                break;
+            default:
+                trigger_error('[ML] assign a wrong action function');
                 break;
         }
         $layer = new Layer($num, Neuron::class, $act);
@@ -91,7 +106,7 @@ class NeuralNetwork {
 
     public function predict($sample)
     {
-        $a = $this->_app->predict([$sample]);
+        $a = $this->_app->predict([array_values($sample)]);
         return $a[0];
     }
 }
