@@ -11,6 +11,7 @@ abstract class BaseAlgorithm
 {
     protected $_app;
     protected $_state = [];
+    protected $_normalizer = false;
 
     abstract public function getDefaultProps();
     abstract public function getAlgo();
@@ -55,9 +56,9 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function normalize($samples, $normalizer=null)
+    public function normalize($samples, $normalizer=false)
     {
-        if (!is_bool($normalizer)) {
+        if (is_bool($normalizer)) {
             $oNormalizer = new Normalizer();
         } else {
             $oNormalizer = new Normalizer($normalizer);
@@ -66,10 +67,16 @@ abstract class BaseAlgorithm
         return $samples;
     }
 
-    public function train($samples, $target, $normalizer=false)
+    public function setNormalizer($normalizer = true)
     {
-        if ($normalizer) {
-            $samples = $this->normalize($samples, $normalizer);
+        $this->_normalizer = $normalizer;
+        return $this;
+    }
+
+    public function train($samples, $target)
+    {
+        if ($this->_normalizer) {
+            $samples = $this->normalize($samples, $this->_normalizer);
         }
         $this->_app->train($samples, $target); 
         return $this;
@@ -77,6 +84,9 @@ abstract class BaseAlgorithm
 
     public function predicts(array $samples)
     {
+        if ($this->_normalizer) {
+            $samples = $this->normalize($samples, $this->_normalizer);
+        }
         return  $this->_app->predict($samples);
     }
 

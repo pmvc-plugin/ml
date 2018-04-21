@@ -40,14 +40,14 @@ class NeuralTest extends PHPUnit_Framework_TestCase
                 'hiddenLayers'=>[2],
                 'classes'=>['a', 'b', 'c']
             ])->
+            setNormalizer()-> 
             train(
                 [
                     [100, 100, 100, 10],
                     [100, 100, 100, 1],
                     [100, 0, 0, 1],
                 ],
-                ['a', 'a', 'b'],
-                true
+                ['a', 'a', 'b']
             );
         $actual = $neural->predict([100, 0, 0, 1]);
         $this->assertEquals('b', $actual);
