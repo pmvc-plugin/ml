@@ -2,6 +2,9 @@
 
 namespace PMVC\PlugIn\ml;
 
+# Normalization
+use Phpml\Preprocessing\Normalizer;
+
 use InvalidArgumentException; 
 
 abstract class BaseAlgorithm
@@ -52,8 +55,22 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function train($samples, $target)
+    public function normalize($samples, $normalizer=null)
     {
+        if (!is_bool($normalizer)) {
+            $oNormalizer = new Normalizer();
+        } else {
+            $oNormalizer = new Normalizer($normalizer);
+        }
+        $oNormalizer->transform($samples);
+        return $samples;
+    }
+
+    public function train($samples, $target, $normalizer=false)
+    {
+        if ($normalizer) {
+            $samples = $this->normalize($samples, $normalizer);
+        }
         $this->_app->train($samples, $target); 
         return $this;
     }
