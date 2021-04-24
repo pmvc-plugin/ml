@@ -16,5 +16,11 @@
         "pmvc/pmvc": "*",
         "php-ai/php-ml": "*"
     },
+    "require-dev": {
+        "pmvc-plugin/unit": "*"
+    },
+    "config": {
+        "platform": { "php": "7.2" }
+    },
     "minimum-stability": "dev"
 }

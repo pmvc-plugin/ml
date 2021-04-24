@@ -2,9 +2,9 @@
 
 namespace PMVC\PlugIn\ml;
 
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class SvcTest extends PHPUnit_Framework_TestCase
+class SvcTest extends TestCase
 {
     private $_plug='ml';
     function testSimple()

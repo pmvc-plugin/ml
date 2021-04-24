@@ -1,9 +1,9 @@
 <?php
 namespace PMVC\PlugIn\ml;
 
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class NeuralTest extends PHPUnit_Framework_TestCase
+class NeuralTest extends TestCase
 {
     private $_plug='ml';
     function testSimpleInput()
