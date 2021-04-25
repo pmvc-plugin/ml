@@ -9,7 +9,7 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source
-  - composer require phpunit/phpunit 4.8.35
+  - composer require phpunit/phpunit 6.5.5
  
 script:
   - vendor/bin/phpunit
