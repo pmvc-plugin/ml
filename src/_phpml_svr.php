@@ -5,9 +5,9 @@ namespace PMVC\PlugIn\ml;
 use Phpml\SupportVectorMachine\Kernel;
 use Phpml\Regression\SVR;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\AlgoSVR';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\PhpmlSVR';
 
-class AlgoSVR extends BaseRegression 
+class PhpmlSVR extends PhpmlBaseRegression
 {
     public function getDefaultProps()
     {

@@ -12,7 +12,6 @@ class MlTest extends TestCase
         print_r(\PMVC\plug($this->_plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->haveString($this->_plug,$output);
+        $this->haveString($this->_plug, $output);
     }
-
 }

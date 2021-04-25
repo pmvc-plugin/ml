@@ -4,7 +4,7 @@ namespace PMVC\PlugIn\ml;
 
 use PMVC\TestCase;
 
-class SvrTest extends TestCase
+class PhpmlSvrTest extends TestCase
 {
     private $_plug='ml';
     function testSimple()
@@ -13,6 +13,7 @@ class SvrTest extends TestCase
         $targets = [3.1, 3.6, 3.8, 4, 4.1];
         $plug = \PMVC\plug($this->_plug);
         $result = $plug->
+            phpml()->
             svr()->
             assign()->
             train($samples, $targets)->

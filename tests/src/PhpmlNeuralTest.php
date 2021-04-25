@@ -3,13 +3,14 @@ namespace PMVC\PlugIn\ml;
 
 use PMVC\TestCase;
 
-class NeuralTest extends TestCase
+class PhpmlNeuralTest extends TestCase
 {
     private $_plug='ml';
     function testSimpleInput()
     {
         $plug = \PMVC\plug($this->_plug);
         $neural = $plug->
+            phpml()->
             neural()->
             assign([
                 'inputLayerFeatures'=>4,
@@ -34,6 +35,7 @@ class NeuralTest extends TestCase
     {
         $plug = \PMVC\plug($this->_plug);
         $neural = $plug->
+            phpml()->
             neural()->
             assign([
                 'inputLayerFeatures'=>4,

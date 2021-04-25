@@ -1,5 +1,7 @@
 <?php
+
 namespace PMVC\PlugIn\ml;
+
 use Phpml\Classification\MLPClassifier;
 
 # Activation Functions
@@ -14,9 +16,9 @@ use Phpml\NeuralNetwork\ActivationFunction\ThresholdedReLU;
 use Phpml\NeuralNetwork\Layer;
 use Phpml\NeuralNetwork\Node\Neuron;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\NeuralNetwork';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\PhpmlNeuralNetwork';
 
-class NeuralNetwork extends BaseAlgorithm
+class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
 {
     public function getDefaultProps()
     {

@@ -4,7 +4,7 @@ namespace PMVC\PlugIn\ml;
 
 use PMVC\TestCase;
 
-class SvcTest extends TestCase
+class PhpmlSvcTest extends TestCase
 {
     private $_plug='ml';
     function testSimple()
@@ -13,6 +13,7 @@ class SvcTest extends TestCase
         $labels = ['a', 'a', 'a', 'b', 'b', 'b'];
         $plug = \PMVC\plug($this->_plug);
         $result = $plug->
+            phpml()->
             svc()->
             assign([
                 'cost'=> 1000

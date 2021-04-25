@@ -7,7 +7,7 @@ use Phpml\Preprocessing\Normalizer;
 
 use InvalidArgumentException; 
 
-abstract class BaseAlgorithm
+abstract class PhpmlBaseAlgorithm
 {
     protected $_app;
     protected $_state = [];

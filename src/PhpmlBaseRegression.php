@@ -4,7 +4,7 @@ namespace PMVC\PlugIn\ml;
 
 use Phpml\SupportVectorMachine\Kernel;
 
-abstract class BaseRegression extends BaseAlgorithm  
+abstract class PhpmlBaseRegression extends PhpmlBaseAlgorithm  
 {
     public function setKernel($type)
     {
