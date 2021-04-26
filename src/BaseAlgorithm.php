@@ -70,7 +70,7 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function train($samples, $target)
+    public function train($samples, $target = null)
     {
         if ($this->_normalizer) {
             $samples = $this->normalize($samples, $this->_normalizer);
@@ -79,20 +79,8 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function predicts(array $samples)
-    {
-        if ($this->_normalizer) {
-            $samples = $this->normalize($samples, $this->_normalizer);
-        }
-        return  $this->_app->predict($samples);
-    }
-
     public function predict($sample)
     {
-        if (is_array($sample)) {
-            $sample = array_values($sample);
-        }
-        $a = $this->predicts([$sample]);
-        return $a[0];
+        return  $this->_app->predict($sample);
     }
 }

@@ -12,6 +12,11 @@ class RubixMl
         return $this;
     }
 
+    public function __call($method, $args)
+    {
+        return call_user_func_array([$this->caller, 'rubix_ml_' . $method], $args);
+    }
+
     public function initDataSet($samples, $labels = null)
     {
         if (is_null($labels)) {
