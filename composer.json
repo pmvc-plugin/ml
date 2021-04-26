@@ -12,15 +12,16 @@
         }
     ],
     "require": {
-        "php": ">7.1",
+        "php": ">=7.4",
         "pmvc/pmvc": "*",
-        "php-ai/php-ml": "*"
+        "php-ai/php-ml": "*",
+        "rubix/ml": "*"
     },
     "require-dev": {
         "pmvc-plugin/unit": "*"
     },
     "config": {
-        "platform": { "php": "7.2" }
+        "platform": { "php": "7.4" }
     },
     "minimum-stability": "dev"
 }

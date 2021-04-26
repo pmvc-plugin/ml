@@ -5,7 +5,13 @@ namespace PMVC\PlugIn\ml;
 use Phpml\SupportVectorMachine\Kernel;
 use Phpml\Regression\SVR;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\PhpmlSVR';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\GetPhpmlSVR';
+
+class GetPhpmlSVR {
+  public function __invoke() {
+      return new PhpmlSVR();
+  }
+}
 
 class PhpmlSVR extends PhpmlBaseRegression
 {

@@ -2,6 +2,7 @@
 
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 PLUGIN_NAME="ml"
+OTHER=$*
 
 
 run_bash() {
@@ -17,7 +18,7 @@ test() {
     -v $DIR:/var/www/html \
     -v $DIR:/var/www/${PLUGIN_NAME} \
     --name phpunit hillliu/pmvc-phpunit \
-    phpunit 
+    phpunit $OTHER 
 }
 
 case "$1" in

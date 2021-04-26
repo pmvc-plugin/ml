@@ -16,7 +16,13 @@ use Phpml\NeuralNetwork\ActivationFunction\ThresholdedReLU;
 use Phpml\NeuralNetwork\Layer;
 use Phpml\NeuralNetwork\Node\Neuron;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\PhpmlNeuralNetwork';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\GetPhpmlNeuralNetwork';
+
+class GetPhpmlNeuralNetwork {
+  public function __invoke() {
+      return new PhpmlNeuralNetwork();
+  }
+}
 
 class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
 {
