@@ -2,7 +2,7 @@
 
 namespace PMVC\PlugIn\ml;
 
-use InvalidArgumentException; 
+use InvalidArgumentException;
 
 abstract class BaseAlgorithm
 {
@@ -13,7 +13,8 @@ abstract class BaseAlgorithm
     abstract public function getDefaultProps();
     abstract public function getAlgo();
 
-    public function getDefaultNormalizer() {
+    public function getDefaultNormalizer()
+    {
         return null;
     }
 
@@ -25,13 +26,10 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function getInstance (array $params)
+    public function getInstance(array $params)
     {
-        $default = $this->getDefaultProps(); 
-        $params = array_replace(
-            $default,
-            $params
-        );
+        $default = $this->getDefaultProps();
+        $params = array_replace($default, $params);
         $keys = array_keys($default);
         $configs = [];
         foreach ($keys as $key) {
@@ -39,28 +37,27 @@ abstract class BaseAlgorithm
             unset($params[$key]);
         }
         if (count($params)) {
-            throw new InvalidArgumentException(json_encode([
-                'Error'  => 'Config key not correct.',
-                'params' => $params
-            ]));
+            throw new InvalidArgumentException(
+                json_encode([
+                    'Error' => 'Config key not correct.',
+                    'params' => $params,
+                ])
+            );
         }
         return $this->getAlgo(...$configs);
     }
 
     public function assign(array $params = [])
     {
-        $params = array_replace(
-            $this->_state,
-            $params
-        );
+        $params = array_replace($this->_state, $params);
         $this->_app = $this->getInstance($params);
         return $this;
     }
 
-    public function normalize($samples, $normalizer=false)
+    public function normalize($samples, $normalizer = false, $labels = null)
     {
-        $oNormalizer = new Normalizer($normalizer, $this);
-        $samples = $oNormalizer->transform($samples);
+        $oNormalizer = new NormalizeProcessor($normalizer, $this);
+        $samples = $oNormalizer->transform($samples, $labels);
         return $samples;
     }
 
@@ -70,17 +67,17 @@ abstract class BaseAlgorithm
         return $this;
     }
 
-    public function train($samples, $target = null)
+    public function train($samples, $labels = null)
     {
         if ($this->_normalizer) {
-            $samples = $this->normalize($samples, $this->_normalizer);
+            $samples = $this->normalize($samples, $this->_normalizer, $labels);
         }
-        $this->_app->train($samples, $target); 
+        $this->_app->train($samples, $labels);
         return $this;
     }
 
     public function predict($sample)
     {
-        return  $this->_app->predict($sample);
+        return $this->_app->predict($sample);
     }
 }

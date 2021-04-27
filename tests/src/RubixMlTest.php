@@ -4,6 +4,7 @@ namespace PMVC\PlugIn\ml;
 
 use PMVC\TestCase;
 use Rubix\ML\Classifiers\KNearestNeighbors;
+use Rubix\ML\Transformers\TextNormalizer;
 
 class RubixMlTest extends TestCase
 {
@@ -26,7 +27,7 @@ class RubixMlTest extends TestCase
         $estimator = new KNearestNeighbors(3);
         $estimator->train($this->dataset);
         $predictions = $estimator->predict($this->sampleDataset);
-        var_dump($predictions);
+        $this->assertEquals(['hot', 'cute', 'cute', 'hot'], $predictions);
     }
 
     public function testNeural()
@@ -39,6 +40,15 @@ class RubixMlTest extends TestCase
         $neural->assign();
         $neural->train($this->dataset);
         $predictions = $neural->predict($this->sampleDataset);
-        var_dump($predictions);
+        $this->assertTrue(in_array('cute', $predictions));
+    }
+
+
+    public function testNormalizer()
+    {
+        $n = new NormalizeProcessor([new TextNormalizer()]);
+        $samples = [['AAA'], ['Bbb'], ['cCC']];
+        $results = $n->transform($samples);
+        $this->assertEquals([['aaa'], ['bbb'], ['ccc']], $results);
     }
 }
