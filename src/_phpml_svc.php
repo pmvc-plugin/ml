@@ -5,9 +5,9 @@ namespace PMVC\PlugIn\ml;
 use Phpml\SupportVectorMachine\Kernel;
 use Phpml\Classification\SVC;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\GetPhpmlSVC';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\PhpmlGetSVC';
 
-class GetPhpmlSVC {
+class PhpmlGetSVC {
   public function __invoke() {
       return new PhpmlSVC();
   }

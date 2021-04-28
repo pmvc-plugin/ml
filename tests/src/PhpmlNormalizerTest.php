@@ -3,8 +3,6 @@
 namespace PMVC\PlugIn\ml;
 
 use PMVC\TestCase;
-# Normalization
-use Phpml\Preprocessing\Normalizer;
 
 class PhpmlNormalizerTest extends TestCase
 {
@@ -15,7 +13,8 @@ class PhpmlNormalizerTest extends TestCase
      */
     function testSimple()
     {
-        $n = new NormalizeProcessor([new Normalizer(Normalizer::NORM_L1)]);
+        $p = \PMVC\plug($this->_plug);
+        $n = new NormalizeProcessor([$p->phpml()->getNormalizer('normalizeL1')]);
         $samples = [[1, -1, 2], [2, 0, 0], [0, 1, -1]];
         $results = $n->transform($samples);
         $this->assertEquals(

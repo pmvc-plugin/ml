@@ -67,17 +67,29 @@ abstract class BaseAlgorithm
         return $this;
     }
 
+    protected function preTrain($app) {
+        return $app;
+    }
+
+    protected function postTrain($app) {
+        return $this;
+    }
+
+    protected function prePredict($app) {
+        return $app;
+    }
+
     public function train($samples, $labels = null)
     {
         if ($this->_normalizer) {
             $samples = $this->normalize($samples, $this->_normalizer, $labels);
         }
-        $this->_app->train($samples, $labels);
-        return $this;
+        $this->preTrain($this->_app)->train($samples, $labels);
+        return $this->postTrain($this->_app);
     }
 
     public function predict($sample)
     {
-        return $this->_app->predict($sample);
+        return $this->prePredict($this->_app)->predict($sample);
     }
 }
