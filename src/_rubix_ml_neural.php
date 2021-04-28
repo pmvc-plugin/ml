@@ -20,7 +20,7 @@ class GetRubixMlNeuralNetwork
     }
 }
 
-class RubixMlNeuralNetwork extends BaseAlgorithm
+class RubixMlNeuralNetwork extends RubixMlBaseAlgorithm
 {
     public function getDefaultProps()
     {

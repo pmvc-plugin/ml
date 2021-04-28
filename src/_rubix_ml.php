@@ -3,6 +3,10 @@ namespace PMVC\PlugIn\ml;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Datasets\Unlabeled;
 
+
+\PMVC\l(__DIR__ . '/RubixMlBaseAlgorithm');
+
+
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\RubixMl';
 
 class RubixMl
