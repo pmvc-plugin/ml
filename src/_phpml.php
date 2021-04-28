@@ -4,8 +4,8 @@ namespace PMVC\PlugIn\ml;
 \PMVC\l(__DIR__ . '/PhpmlBaseAlgorithm');
 \PMVC\l(__DIR__ . '/PhpmlBaseRegression');
 
-const PHPML_BIN_DIR = __DIR__ . '/../vendor/php-ai/php-ml/bin/libsvm';
-const PHPML_SVMTRAIN = PHPML_BIN_DIR . '/svm-train';
+const PHPML_BIN_DIR = '[VENDOR]/php-ai/php-ml/bin/libsvm';
+const PHPML_SVMTRAIN = '/svm-train';
 const LOCAL_SVMTRAIN = '/usr/local/bin/svm-train';
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\PHPML';
@@ -14,30 +14,41 @@ class PHPML
 {
     public function __construct()
     {
+        $binDir = $this->_getVendor(PHPML_BIN_DIR);
+        $svmTrainBinPath = $binDir. PHPML_SVMTRAIN;
         $files = ['svm-train', 'svm-predict', 'svm-scale'];
         if (is_file(LOCAL_SVMTRAIN)) {
-            if (!is_link(PHPML_SVMTRAIN)) {
+            if (!is_link($svmTrainBinPath)) {
                 foreach ($files as $file) {
                     rename(
-                        PHPML_BIN_DIR . '/' . $file,
-                        PHPML_BIN_DIR . '/' . $file . '-bak'
+                        $binDir . '/' . $file,
+                        $binDir . '/' . $file . '-bak'
                     );
                     symlink(
                         '/usr/local/bin/' . $file,
-                        PHPML_BIN_DIR . '/' . $file
+                        $binDir . '/' . $file
                     );
                 }
             }
         } else {
-            if (!is_file(PHPML_SVMTRAIN)) {
+            if (!is_file($svmTrainBinPath)) {
                 foreach ($files as $file) {
                     symlink(
-                        PHPML_BIN_DIR . '/' . $file . '-bak',
-                        PHPML_BIN_DIR . '/' . $file
+                        $binDir . '/' . $file . '-bak',
+                        $binDir . '/' . $file
                     );
                 }
             }
         }
+    }
+
+    private function _getVendor($path) {
+        $vendor = \PMVC\realPath(__DIR__.'/../vendor');
+        if (!$vendor) {
+            $vendor = \PMVC\realPath(__DIR__.'/../../../../vendor');
+        }
+        $nextPath = str_replace('[VENDOR]', $vendor, $path);
+        return $nextPath;
     }
 
     public function __invoke()

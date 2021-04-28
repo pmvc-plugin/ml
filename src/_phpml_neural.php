@@ -30,7 +30,7 @@ class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
     {
         return [
             'inputLayerFeatures' => null,
-            'hiddenLayers'       => null,
+            'hiddenLayers'       => [[2, new PReLU], [2, new Sigmoid]],
             'classes'            => null,
             'iterations'         => 10000,
             'activationFunction' => null,
