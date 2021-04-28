@@ -26,7 +26,7 @@ abstract class PhpmlBaseRegression extends PhpmlBaseAlgorithm
                 return trigger_error('No such kernel type. ['.$type.']');
                 break;
         }
-        $this->_state['kernel'] = $v;
+        $this->state['kernel'] = $v;
         return $this;
     }
 }

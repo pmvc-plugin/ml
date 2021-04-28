@@ -45,12 +45,12 @@ class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
 
     public function addLayer($num, $name)
     {
-        if (!isset($this->_state['hiddenLayers']) ||
-            !is_array($this->_state['hiddenLayers'])
+        if (!isset($this->state['hiddenLayers']) ||
+            !is_array($this->state['hiddenLayers'])
         ) {
-            $this->_state['hiddenLayers'] = [];
+            $this->state['hiddenLayers'] = [];
         }
-        $this->_state['hiddenLayers'][] = 
+        $this->state['hiddenLayers'][] = 
             $this->getLayer($num, $name);
     }
 

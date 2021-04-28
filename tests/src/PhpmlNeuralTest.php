@@ -51,7 +51,7 @@ class PhpmlNeuralTest extends TestCase
                 ],
                 ['a', 'a', 'b']
             );
-        $actual = $neural->predict([100, 0, 0, 1]);
+        $actual = $neural->predictOne([100, 0, 0, 1]);
         $this->assertEquals('b', $actual);
     }
 }

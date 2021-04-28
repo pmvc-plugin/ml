@@ -19,7 +19,7 @@ class PhpmlSvcTest extends TestCase
                 'cost'=> 1000
             ])->
             train($samples, $labels)->
-            predicts([[3, 2], [1, 5]]);
+            predict([[3, 2], [1, 5]]);
         $this->assertEquals(['b', 'a'], $result);
     }
 }

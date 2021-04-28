@@ -6,9 +6,10 @@ use InvalidArgumentException;
 
 abstract class BaseAlgorithm
 {
-    protected $_app;
-    protected $_state = [];
-    protected $_normalizer = false;
+    protected $state = [];
+    protected $persistency;
+    private $_app;
+    private $_normalizer = false;
 
     abstract public function getDefaultProps();
     abstract public function getAlgo();
@@ -49,7 +50,7 @@ abstract class BaseAlgorithm
 
     public function assign(array $params = [])
     {
-        $params = array_replace($this->_state, $params);
+        $params = array_replace($this->state, $params);
         $this->_app = $this->getInstance($params);
         return $this;
     }
@@ -65,6 +66,11 @@ abstract class BaseAlgorithm
     {
         $this->_normalizer = $normalizer;
         return $this;
+    }
+
+    public function setPersistency($file)
+    {
+        $this->_persistency = $file;
     }
 
     protected function preTrain($app) {
@@ -88,8 +94,17 @@ abstract class BaseAlgorithm
         return $this->postTrain($this->_app);
     }
 
-    public function predict($sample)
+    public function predict($samples)
     {
-        return $this->prePredict($this->_app)->predict($sample);
+        if ($this->_normalizer) {
+            $samples = $this->normalize($samples, $this->_normalizer);
+        }
+        return $this->prePredict($this->_app)->predict($samples);
+    }
+
+    public function predictOne($sample)
+    {
+        $result = $this->predict([$sample]);
+        return $result[0];
     }
 }
