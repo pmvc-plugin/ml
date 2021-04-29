@@ -8,6 +8,7 @@ use Rubix\ML\NeuralNet\Layers\PReLU;
 use Rubix\ML\NeuralNet\Layers\Activation;
 use Rubix\ML\NeuralNet\Layers\BatchNorm;
 use Rubix\ML\NeuralNet\ActivationFunctions\LeakyReLU;
+use Rubix\ML\NeuralNet\ActivationFunctions\Sigmoid;
 use Rubix\ML\NeuralNet\Optimizers\AdaMax;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\GetRubixMlNeuralNetwork';
@@ -26,17 +27,11 @@ class RubixMlNeuralNetwork extends RubixMlBaseAlgorithm
     {
         return [
             'hiddenLayers' => [
-                new Dense(100),
-                new Activation(new LeakyReLU()),
-                new Dense(100),
-                new Activation(new LeakyReLU()),
-                new Dense(100, 0.0, false),
+                new Dense(128),
+                new PReLU(),
+                new Dense(128),
+                new Activation(new Sigmoid()),
                 new BatchNorm(),
-                new Activation(new LeakyReLU()),
-                new Dense(50),
-                new PReLU(),
-                new Dense(50),
-                new PReLU(),
             ],
             'batchSize' => 256,
             'optimizer' => new AdaMax(0.0001),
