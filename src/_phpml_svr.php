@@ -30,8 +30,8 @@ class PhpmlSVR extends PhpmlBaseRegression
         ];
     }
 
-    public function getAlgo(...$params)
+    public function getAlgo($configs)
     {
-        return new SVR(...$params);
+        return new SVR(...$configs);
     }
 }

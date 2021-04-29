@@ -49,8 +49,8 @@ class RubixMlNeuralNetwork extends RubixMlBaseAlgorithm
      *
      * https://docs.rubixml.com/1.0/classifiers/multilayer-perceptron.html
      */
-    public function getAlgo(...$params)
+    public function getAlgo($configs)
     {
-        return new MultilayerPerceptron(...$params);
+        return new MultilayerPerceptron(...$configs);
     }
 }

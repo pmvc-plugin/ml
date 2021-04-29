@@ -12,25 +12,22 @@ abstract class BaseAlgorithm
     private $_normalizer = false;
 
     abstract public function getDefaultProps();
-    abstract public function getAlgo();
+    abstract public function getAlgo($configs);
 
     public function getDefaultNormalizer()
     {
         return null;
     }
 
-    public function __invoke($app = null)
-    {
-        if (!is_null($this->_app)) {
-            $this->_app = $app;
-        }
-        return $this;
+    protected function preGetConfigs($params, $samples, $labels) {
+        return $params;
     }
 
-    public function getInstance(array $params)
+    public function getInstance($samples, $labels)
     {
         $default = $this->getDefaultProps();
-        $params = array_replace($default, $params);
+        $params = array_replace($default, $this->state);
+        $params = $this->preGetConfigs($params, $samples, $labels);
         $keys = array_keys($default);
         $configs = [];
         foreach ($keys as $key) {
@@ -45,13 +42,18 @@ abstract class BaseAlgorithm
                 ])
             );
         }
-        return $this->getAlgo(...$configs);
+        return $this->getAlgo($configs);
     }
 
     public function assign(array $params = [])
     {
-        $params = array_replace($this->state, $params);
-        $this->_app = $this->getInstance($params);
+        $this->state = array_replace($this->state, $params);
+        return $this;
+    }
+
+    public function clean()
+    {
+        $this->state = [];
         return $this;
     }
 
@@ -90,6 +92,7 @@ abstract class BaseAlgorithm
         if ($this->_normalizer) {
             $samples = $this->normalize($samples, $this->_normalizer, $labels);
         }
+        $this->_app = $this->getInstance($samples, $labels);
         $this->preTrain($this->_app)->train($samples, $labels);
         return $this->postTrain($this->_app);
     }

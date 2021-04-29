@@ -16,12 +16,14 @@ use Phpml\NeuralNetwork\ActivationFunction\ThresholdedReLU;
 use Phpml\NeuralNetwork\Layer;
 use Phpml\NeuralNetwork\Node\Neuron;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\GetPhpmlNeuralNetwork';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\GetPhpmlNeuralNetwork';
 
-class GetPhpmlNeuralNetwork {
-  public function __invoke() {
-      return new PhpmlNeuralNetwork();
-  }
+class GetPhpmlNeuralNetwork
+{
+    public function __invoke()
+    {
+        return new PhpmlNeuralNetwork();
+    }
 }
 
 class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
@@ -30,28 +32,39 @@ class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
     {
         return [
             'inputLayerFeatures' => null,
-            'hiddenLayers'       => [[2, new PReLU], [2, new Sigmoid]],
-            'classes'            => null,
-            'iterations'         => 10000,
+            'hiddenLayers' => [[2, new PReLU()], [2, new Sigmoid()]],
+            'classes' => null,
+            'iterations' => 10000,
             'activationFunction' => null,
-            'learningRate'       => 1,
+            'learningRate' => 1,
         ];
     }
 
-    public function getAlgo(...$params)
+    public function preGetConfigs($params, $samples, $labels)
     {
-        return new MLPClassifier(...$params);
+        if (is_null($params['inputLayerFeatures'])) {
+            $params['inputLayerFeatures'] = count($samples[0]);
+        }
+        if (is_null($params['classes'])) {
+            $params['classes'] = array_unique($labels);
+        }
+        return $params;
+    }
+
+    public function getAlgo($configs)
+    {
+        return new MLPClassifier(...$configs);
     }
 
     public function addLayer($num, $name)
     {
-        if (!isset($this->state['hiddenLayers']) ||
+        if (
+            !isset($this->state['hiddenLayers']) ||
             !is_array($this->state['hiddenLayers'])
         ) {
             $this->state['hiddenLayers'] = [];
         }
-        $this->state['hiddenLayers'][] = 
-            $this->getLayer($num, $name);
+        $this->state['hiddenLayers'][] = $this->getLayer($num, $name);
     }
 
     public function getLayer($num, $name)
@@ -83,5 +96,4 @@ class PhpmlNeuralNetwork extends PhpmlBaseAlgorithm
         $layer = new Layer($num, Neuron::class, $act);
         return $layer;
     }
-
 }
