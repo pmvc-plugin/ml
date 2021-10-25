@@ -13,7 +13,7 @@ class RubixMlTest extends TestCase
     public function pmvc_setup()
     {
         $plug = \PMVC\plug($this->_plug);
-        $rubixMl = $plug->rubixMl();
+        $rubixMl = $plug->rubix_ml();
         $samples = [[3, 4, 50.5], [1, 5, 24.7], [4, 4, 62.0], [3, 2, 31.1]];
 
         $labels = ['hot', 'cute', 'hot', 'cute'];
@@ -35,7 +35,7 @@ class RubixMlTest extends TestCase
 
         $plug = \PMVC\plug($this->_plug);
         $neural = $plug->
-            rubixMl()->
+            rubix_ml()->
             neural();
         $neural->assign();
         $neural->train($this->dataset);

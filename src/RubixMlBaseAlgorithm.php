@@ -11,7 +11,7 @@ abstract class RubixMlBaseAlgorithm extends BaseAlgorithm
     public function train($samples, $labels = null)
     {
         if (is_array($samples)) {
-          $samples = \PMVC\plug('ml')->rubixMl()->initDataSet($samples, $labels);
+          $samples = \PMVC\plug('ml')->rubix_ml()->initDataSet($samples, $labels);
         }
         return parent::train($samples);
     }
@@ -19,7 +19,7 @@ abstract class RubixMlBaseAlgorithm extends BaseAlgorithm
     public function predict($samples)
     {
         if (is_array($samples)) {
-          $samples = \PMVC\plug('ml')->rubixMl()->initDataSet($samples);
+          $samples = \PMVC\plug('ml')->rubix_ml()->initDataSet($samples);
         }
         return parent::predict($samples);
     }

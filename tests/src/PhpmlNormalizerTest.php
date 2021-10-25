@@ -14,7 +14,7 @@ class PhpmlNormalizerTest extends TestCase
     function testSimple()
     {
         $p = \PMVC\plug($this->_plug);
-        $n = new NormalizeProcessor([$p->phpml()->getNormalizer('normalizeL1')]);
+        $n = new NormalizeProcessor([$p->phpml()->get_normalizer('normalizeL1')]);
         $samples = [[1, -1, 2], [2, 0, 0], [0, 1, -1]];
         $results = $n->transform($samples);
         $this->assertEquals(
